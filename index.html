@@ -1,453 +1,399 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ADHD Services Meta Ads Report | January 2026</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ADHD Services – Meta Ads Growth Dashboard (Ene–Feb 2026)</title>
+
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
   <style>
     :root{
-      --bg0:#070A12;
-      --card:#0B1220;
-      --card2:#0E1930;
-      --text:#EAF0FF;
-      --muted:#A9B4D0;
-
-      --cyan:#22D3EE;
-      --blue:#60A5FA;
-      --purple:#A78BFA;
-      --pink:#FB7185;
-      --amber:#FBBF24;
-      --green:#34D399;
-      --red:#F87171;
-
-      --grid:rgba(255,255,255,.08);
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius:18px;
+      --c-bg:#020617;
+      --c1:#1d4ed8;
+      --c2:#22c55e;
+      --c3:#8b5cf6;
+      --c4:#0ea5e9;
+      --c5:#f97316;
     }
-    *{box-sizing:border-box}
     body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background: radial-gradient(1200px 600px at 20% 0%, rgba(34,211,238,.20), transparent 60%),
-                  radial-gradient(900px 500px at 80% 10%, rgba(167,139,250,.18), transparent 55%),
-                  radial-gradient(900px 600px at 40% 100%, rgba(251,191,36,.12), transparent 60%),
-                  var(--bg0);
-      color:var(--text);
+      background:radial-gradient(circle at top,var(--c3) 0,transparent 55%),
+                 radial-gradient(circle at bottom,var(--c1) 0,var(--c-bg) 60%);
+      min-height:100vh;
+      color:#020617;
     }
-    a{color:var(--cyan);text-decoration:none}
-    .wrap{max-width:1100px;margin:0 auto;padding:28px 18px 60px}
-    header{
-      display:flex;justify-content:space-between;align-items:flex-start;gap:18px;
-      padding:18px 18px 12px;
-      background: linear-gradient(135deg, rgba(34,211,238,.12), rgba(167,139,250,.10));
-      border:1px solid var(--grid);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
+    .shell{
+      background:rgba(255,255,255,.96);
+      backdrop-filter:blur(20px);
+      border-radius:18px;
+      margin:18px auto;
+      padding:22px;
+      max-width:1200px;
+      box-shadow:0 22px 60px rgba(15,23,42,.45);
     }
-    .title h1{margin:0;font-size:22px;letter-spacing:.2px}
-    .title p{margin:6px 0 0;color:var(--muted);line-height:1.35}
+    .hero{
+      background:linear-gradient(135deg,var(--c1),var(--c3));
+      color:#fff;
+      border-radius:18px;
+      padding:20px 22px;
+      margin-bottom:18px;
+    }
     .pill{
-      display:inline-flex;gap:10px;align-items:center;
-      padding:10px 12px;border-radius:999px;
-      border:1px solid var(--grid);
-      background: rgba(11,18,32,.55);
-      color:var(--muted);
-      font-size:12px;
-      white-space:nowrap;
-    }
-    .dot{width:10px;height:10px;border-radius:50%}
-    .dot.cyan{background:var(--cyan)}
-    .dot.amber{background:var(--amber)}
-    .grid{
-      margin-top:18px;
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap:14px;
-    }
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
-      border:1px solid var(--grid);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding:16px 16px 14px;
-      overflow:hidden;
-      position:relative;
-    }
-    .card h2{margin:0 0 8px;font-size:14px;color:var(--muted);font-weight:650}
-    .kpi{
-      display:flex;align-items:flex-end;justify-content:space-between;gap:10px;
-      margin-top:8px;
-    }
-    .kpi .value{font-size:28px;font-weight:800;letter-spacing:.2px}
-    .kpi .sub{font-size:12px;color:var(--muted);text-align:right}
-    .accent{
-      position:absolute;inset:auto -40px -40px auto;
-      width:180px;height:180px;border-radius:50%;
-      filter: blur(2px);
-      opacity:.18;
-    }
-    .accent.cyan{background:var(--cyan)}
-    .accent.purple{background:var(--purple)}
-    .accent.amber{background:var(--amber)}
-    .accent.green{background:var(--green)}
-    .accent.pink{background:var(--pink)}
-    .span-3{grid-column: span 3}
-    .span-4{grid-column: span 4}
-    .span-5{grid-column: span 5}
-    .span-6{grid-column: span 6}
-    .span-7{grid-column: span 7}
-    .span-8{grid-column: span 8}
-    .span-12{grid-column: span 12}
-
-    .twoCol{display:grid;grid-template-columns: 1.15fr .85fr; gap:14px}
-    @media (max-width: 980px){
-      .span-3,.span-4,.span-5,.span-6,.span-7,.span-8{grid-column: span 12}
-      .twoCol{grid-template-columns: 1fr}
-      header{flex-direction:column}
-    }
-
-    .divider{height:1px;background:var(--grid);margin:12px 0}
-    .note{color:var(--muted);font-size:12px;line-height:1.45;margin:0}
-
-    table{width:100%;border-collapse:collapse;margin-top:8px}
-    th,td{
-      padding:10px 10px;
-      border-bottom:1px solid var(--grid);
-      text-align:left;
-      font-size:13px;
-    }
-    th{color:var(--muted);font-weight:700}
-    td{color:var(--text)}
-    .tag{
-      font-size:12px;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid var(--grid);
-      background: rgba(255,255,255,.03);
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      white-space:nowrap;
-    }
-    .badge{
-      width:8px;height:8px;border-radius:50%;
       display:inline-block;
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:.78rem;
+      font-weight:600;
     }
+    .pill-primary{background:rgba(15,23,42,.35); color:#e5e7eb; border:1px solid rgba(148,163,184,.5);}
+    .pill-green{background:rgba(34,197,94,.12); color:#16a34a; border:1px solid rgba(34,197,94,.35);}
+    .pill-purple{background:rgba(139,92,246,.12); color:#7c3aed; border:1px solid rgba(139,92,246,.35);}
 
-    .bar{
-      height:10px;border-radius:999px;background: rgba(255,255,255,.06);overflow:hidden;border:1px solid var(--grid)
+    .kpi{
+      background:#fff;
+      border-radius:14px;
+      padding:14px;
+      box-shadow:0 12px 30px rgba(15,23,42,.10);
+      border-left:5px solid var(--c1);
+      height:100%;
     }
-    .bar > div{height:100%}
-    .muted{color:var(--muted)}
+    .kpi .l{font-size:.78rem; text-transform:uppercase; letter-spacing:.08em; color:#6b7280;}
+    .kpi .v{font-size:1.7rem; font-weight:800; color:var(--c1);}
+    .kpi .s{font-size:.86rem; color:#16a34a; font-weight:600;}
 
-    .chart{
-      width:100%;
-      height:260px;
-      display:block;
-      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.00));
-      border:1px solid var(--grid);
-      border-radius: 16px;
-      padding:10px;
+    .cardx{
+      background:#fff;
+      border-radius:14px;
+      padding:16px;
+      box-shadow:0 12px 30px rgba(15,23,42,.08);
     }
-
-    footer{margin-top:16px;color:var(--muted);font-size:12px}
-    .small{font-size:12px;color:var(--muted)}
-    .h3{margin:0 0 8px;font-size:16px}
-    .callout{
-      padding:12px 12px;
-      border:1px dashed rgba(34,211,238,.35);
-      background: rgba(34,211,238,.06);
-      border-radius: 14px;
-      color: var(--text);
-      font-size:13px;
-      line-height:1.45;
+    .muted{color:#6b7280;}
+    canvas{max-height:310px;}
+    .table thead th{
+      background:var(--c1);
+      color:#fff;
+      border:0;
+      font-size:.8rem;
+      text-transform:uppercase;
+      letter-spacing:.06em;
     }
-    .list{margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:13px;line-height:1.55}
+    .badge-step{
+      background:rgba(15,23,42,.05);
+      border-radius:999px;
+      padding:4px 9px;
+      font-size:.7rem;
+      font-weight:600;
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="title">
-        <h1>ADHD Services Meta Ads Report | January 2026</h1>
-        <p>
-          Campaign: <strong>ABO | ADHD Followers campaign | 01-07</strong><br/>
-          Reporting window: <strong>Jan 6 to Jan 31, 2026</strong>
-        </p>
-      </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end">
-        <div class="pill"><span class="dot cyan"></span> Data source: Meta Ads exports</div>
-        <div class="pill"><span class="dot amber"></span> Followers: Instagram profile snapshots</div>
-      </div>
-    </header>
+<div class="container-fluid">
+  <div class="shell">
 
-    <section class="grid">
-      <div class="card span-3">
-        <h2>Total Ad Spend</h2>
-        <div class="kpi">
-          <div class="value">€121.63</div>
-          <div class="sub">Currency: EUR</div>
-        </div>
-        <div class="accent cyan"></div>
-      </div>
-
-      <div class="card span-3">
-        <h2>Reach</h2>
-        <div class="kpi">
-          <div class="value">10,126</div>
-          <div class="sub">Unique people</div>
-        </div>
-        <div class="accent purple"></div>
-      </div>
-
-      <div class="card span-3">
-        <h2>Impressions</h2>
-        <div class="kpi">
-          <div class="value">16,836</div>
-          <div class="sub">Total views</div>
-        </div>
-        <div class="accent amber"></div>
-      </div>
-
-      <div class="card span-3">
-        <h2>Frequency</h2>
-        <div class="kpi">
-          <div class="value">1.66</div>
-          <div class="sub">Impressions per person</div>
-        </div>
-        <div class="accent green"></div>
-      </div>
-
-      <div class="card span-4">
-        <h2>CTR All</h2>
-        <div class="kpi">
-          <div class="value">5.31%</div>
-          <div class="sub">All clicks per impression</div>
-        </div>
-        <p class="note">High for a follower and awareness style objective.</p>
-        <div class="accent cyan"></div>
-      </div>
-
-      <div class="card span-4">
-        <h2>Results</h2>
-        <div class="kpi">
-          <div class="value">780</div>
-          <div class="sub">Result type: profile visit view</div>
-        </div>
-        <p class="note">This campaign optimized for profile visits, not purchases.</p>
-        <div class="accent purple"></div>
-      </div>
-
-      <div class="card span-4">
-        <h2>Cost per Result</h2>
-        <div class="kpi">
-          <div class="value">€0.16</div>
-          <div class="sub">Spend divided by results</div>
-        </div>
-        <p class="note">Efficient cost for top of funnel traffic to the profile.</p>
-        <div class="accent amber"></div>
-      </div>
-
-      <div class="card span-6">
-        <h2>Engagement</h2>
-        <div class="twoCol">
-          <div>
-            <div class="kpi">
-              <div class="value">1,057</div>
-              <div class="sub">Post engagements</div>
-            </div>
-            <div class="divider"></div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap">
-              <span class="tag"><span class="badge" style="background:var(--pink)"></span> Comments <strong>4</strong></span>
-              <span class="tag"><span class="badge" style="background:var(--blue)"></span> Shares <strong>2</strong></span>
-              <span class="tag"><span class="badge" style="background:var(--green)"></span> Cost per engagement <strong>€0.115</strong></span>
-            </div>
-            <p class="note" style="margin-top:10px">
-              Engagement rate is computed as engagements divided by reach.
-            </p>
-          </div>
-          <div>
-            <h2 style="margin-top:0">Engagement Rate</h2>
-            <div class="kpi">
-              <div class="value">10.44%</div>
-              <div class="sub">Engagements per reached user</div>
-            </div>
-            <div class="bar" style="margin-top:10px">
-              <div style="width:10.44%; background: linear-gradient(90deg, var(--cyan), var(--purple));"></div>
-            </div>
-            <p class="note" style="margin-top:10px">
-              Calculation: 1,057 divided by 10,126.
-            </p>
+    <!-- HEADER -->
+    <div class="hero">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <div>
+          <h1 class="h4 mb-1">ADHD Services – Growth Dashboard</h1>
+          <div class="small opacity-75">
+            Meta Ads · Objetivo: Followers Campaign (ABO) · 7 Ene – 2 Feb 2026 (26 días)
           </div>
         </div>
-        <div class="accent cyan"></div>
+        <div class="text-end">
+          <div class="pill pill-primary mb-1">Fase: Proof of Concept (validado)</div><br>
+          <div class="pill pill-green">Nicho: Salud neuroafirmativa · Audiencia altamente sensible</div>
+        </div>
       </div>
+    </div>
 
-      <div class="card span-6">
-        <h2>Follower Growth</h2>
-        <div class="twoCol">
-          <div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap">
-              <span class="tag"><span class="badge" style="background:var(--amber)"></span> Starting followers <strong>54</strong></span>
-              <span class="tag"><span class="badge" style="background:var(--cyan)"></span> Current followers <strong>413</strong></span>
-            </div>
-            <div class="divider"></div>
-            <div class="kpi">
-              <div class="value">359</div>
-              <div class="sub">Net new followers gained</div>
-            </div>
-            <p class="note">This uses 413 as the current rounded follower count.</p>
+    <!-- RESUMEN PRINCIPAL -->
+    <div class="row g-3 mb-2">
+      <div class="col-md-3 col-6">
+        <div class="kpi">
+          <div class="l">Seguidores iniciales</div>
+          <div class="v" id="k_start">54</div>
+          <div class="s">Punto de partida</div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="kpi">
+          <div class="l">Seguidores finales</div>
+          <div class="v" id="k_end">413</div>
+          <div class="s">Base de comunidad creada</div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="kpi">
+          <div class="l">Nuevos seguidores</div>
+          <div class="v" id="k_new">359</div>
+          <div class="s">+664.8% de crecimiento</div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="kpi">
+          <div class="l">Inversión total</div>
+          <div class="v" id="k_spend">130.34 €</div>
+          <div class="s">Fase test (26 días)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPIs DE EFICIENCIA -->
+    <div class="row g-3 mb-3">
+      <div class="col-md-3 col-6">
+        <div class="kpi">
+          <div class="l">Impresiones</div>
+          <div class="v" id="k_impr">18,369</div>
+          <div class="s">Visibilidad competitiva</div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="kpi">
+          <div class="l">Alcance</div>
+          <div class="v" id="k_reach">10,965</div>
+          <div class="s">Personas únicas</div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="kpi">
+          <div class="l">Visitas a perfil</div>
+          <div class="v" id="k_profile">835</div>
+          <div class="s">Intención de investigar</div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="kpi">
+          <div class="l">Conv. visita → seguidor</div>
+          <div class="v" id="k_conv">43%</div>
+          <div class="s">Efficiency Ratio outlier</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTA CONTEXTO -->
+    <div class="cardx mb-3">
+      <div class="d-flex flex-wrap justify-content-between align-items-center">
+        <div>
+          <strong>Contexto:</strong> campaña ABO “ADHD Followers campaign 01‑07” con foco en
+          validar modelo de captación de audiencia cualificada, no en métricas vanidosas.
+        </div>
+        <div class="text-end mt-2 mt-sm-0">
+          <span class="pill pill-purple">Social Proof Threshold alcanzado (&gt;400 seguidores)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRAFICOS SUPERIORES -->
+    <div class="row g-3 mb-3">
+      <div class="col-lg-6">
+        <div class="cardx">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="fw-semibold">Embudo de visibilidad y comunidad</div>
+            <span class="badge-step">Impresiones → Alcance → Perfil → Follow</span>
           </div>
-          <div>
-            <h2 style="margin-top:0">Cost per New Follower</h2>
-            <div class="kpi">
-              <div class="value">€0.34</div>
-              <div class="sub">Spend divided by net new followers</div>
-            </div>
-            <div class="bar" style="margin-top:10px">
-              <div style="width:34%; background: linear-gradient(90deg, var(--amber), var(--pink));"></div>
-            </div>
-            <p class="note" style="margin-top:10px">
-              Calculation: €121.63 divided by 359.
-            </p>
+          <canvas id="funnel"></canvas>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="cardx">
+          <div class="fw-semibold mb-2">Eficiencia económica (CAC Optimization)</div>
+          <canvas id="costs"></canvas>
+          <div class="small muted mt-2">
+            · CPV (costo por visita a perfil): 0.156 €<br>
+            · CPF (costo por nuevo seguidor): 0.363 €
           </div>
         </div>
-        <div class="accent amber"></div>
       </div>
+    </div>
 
-      <div class="card span-12">
-        <h2>Ads Breakdown</h2>
-        <p class="note">
-          AD4 used 85.60% of budget and drove the majority of results and engagements.
-        </p>
-        <table>
-          <thead>
-            <tr>
-              <th>Ad</th>
-              <th>Spend</th>
-              <th>Spend Share</th>
-              <th>Impressions</th>
-              <th>Reach</th>
-              <th>CTR all</th>
-              <th>Results</th>
-              <th>Post engagements</th>
-              <th>Cost per engagement</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>AD4</strong> <span class="muted">Top performer</span></td>
-              <td>€104.11</td>
-              <td>
-                <div class="bar" title="85.60%">
-                  <div style="width:85.6%; background: linear-gradient(90deg, var(--cyan), var(--purple));"></div>
-                </div>
-                <div class="small">85.60%</div>
-              </td>
-              <td>13,950</td>
-              <td>9,122</td>
-              <td>5.36%</td>
-              <td>671</td>
-              <td>904</td>
-              <td>€0.114</td>
-            </tr>
-            <tr>
-              <td><strong>AD1</strong></td>
-              <td>€10.34</td>
-              <td>
-                <div class="bar" title="8.50%">
-                  <div style="width:8.5%; background: linear-gradient(90deg, var(--amber), var(--pink));"></div>
-                </div>
-                <div class="small">8.50%</div>
-              </td>
-              <td>1,911</td>
-              <td>1,372</td>
-              <td>5.23%</td>
-              <td>72</td>
-              <td>91</td>
-              <td>€0.116</td>
-            </tr>
-            <tr>
-              <td><strong>AD5</strong></td>
-              <td>€6.76</td>
-              <td>
-                <div class="bar" title="5.56%">
-                  <div style="width:5.56%; background: linear-gradient(90deg, var(--green), var(--cyan));"></div>
-                </div>
-                <div class="small">5.56%</div>
-              </td>
-              <td>874</td>
-              <td>685</td>
-              <td>4.92%</td>
-              <td>36</td>
-              <td>60</td>
-              <td>€0.113</td>
-            </tr>
-            <tr>
-              <td><strong>AD3</strong></td>
-              <td>€0.21</td>
-              <td>
-                <div class="bar" title="0.17%">
-                  <div style="width:0.17%; background: linear-gradient(90deg, var(--red), var(--amber));"></div>
-                </div>
-                <div class="small">0.17%</div>
-              </td>
-              <td>36</td>
-              <td>35</td>
-              <td>5.56%</td>
-              <td>1</td>
-              <td>2</td>
-              <td>€0.105</td>
-            </tr>
-            <tr>
-              <td><strong>AD2</strong> <span class="muted">Insufficient delivery</span></td>
-              <td>€0.21</td>
-              <td>
-                <div class="bar" title="0.17%">
-                  <div style="width:0.17%; background: linear-gradient(90deg, var(--red), var(--pink));"></div>
-                </div>
-                <div class="small">0.17%</div>
-              </td>
-              <td>65</td>
-              <td>55</td>
-              <td>1.54%</td>
-              <td class="muted">Not available</td>
-              <td class="muted">Not available</td>
-              <td class="muted">Not available</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="card span-7">
-        <h2>What these numbers mean</h2>
-        <div class="callout">
-          This was a top of funnel campaign optimized for profile visits and follower growth.
-          It is strong on reach, CTR, and engagement efficiency, but it does not yet measure purchases or revenue.
+    <!-- DETALLE / TABLA -->
+    <div class="row g-3">
+      <div class="col-lg-6">
+        <div class="cardx">
+          <div class="fw-semibold mb-2">Evolución de comunidad (inicio vs final)</div>
+          <canvas id="growth"></canvas>
         </div>
-        <ul class="list">
-          <li><strong>CAC</strong> and <strong>LTV</strong> are not available yet because this campaign does not track customer conversions.</li>
-          <li>To measure conversion rate and ROAS, we need a website or funnel event such as lead form submissions, bookings, or purchases.</li>
-          <li>Your target formula is spend one euro to get five euros or ideally fifty euros back, which requires revenue attribution.</li>
-        </ul>
       </div>
-
-      <div class="card span-5">
-        <h2>Next actions for February</h2>
-        <ul class="list">
-          <li>Scale AD4, keep AD1 as backup creative.</li>
-          <li>Refresh one new creative monthly to avoid fatigue.</li>
-          <li>Set up conversion tracking, Meta Pixel and key events.</li>
-          <li>Add a monthly tab to track trends over time.</li>
-        </ul>
-        <div class="accent purple"></div>
+      <div class="col-lg-6">
+        <div class="cardx">
+          <div class="fw-semibold mb-2">Resumen técnico para dirección</div>
+          <div class="table-responsive">
+            <table class="table table-sm align-middle mb-0">
+              <thead>
+                <tr>
+                  <th>Métrica</th>
+                  <th>Valor</th>
+                  <th>Comentario</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Modelo de compra</td>
+                  <td>ABO (Ad Set Budget Optimization)</td>
+                  <td>Permite control granular del presupuesto por segmento.</td>
+                </tr>
+                <tr>
+                  <td>Impresiones</td>
+                  <td>18,369</td>
+                  <td>Volumen suficiente para test sin sobre-escala temprana.</td>
+                </tr>
+                <tr>
+                  <td>Alcance</td>
+                  <td>10,965 personas</td>
+                  <td>Confirma escalabilidad del mensaje en el nicho.</td>
+                </tr>
+                <tr>
+                  <td>Visitas a perfil</td>
+                  <td>835</td>
+                  <td>Usuarios con intención clara de conocer la marca.</td>
+                </tr>
+                <tr>
+                  <td>Nuevos seguidores</td>
+                  <td>359</td>
+                  <td>Base mínima de autoridad para futuras campañas.</td>
+                </tr>
+                <tr>
+                  <td>Conversión perfil → follow</td>
+                  <td>43%</td>
+                  <td>Muy por encima de estándares típicos de la industria.</td>
+                </tr>
+                <tr>
+                  <td>CPV</td>
+                  <td>0.156 €</td>
+                  <td>Tráfico cualificado a bajo costo.</td>
+                </tr>
+                <tr>
+                  <td>CPF</td>
+                  <td>0.363 €</td>
+                  <td>Adquisición de seguidor altamente competitiva.</td>
+                </tr>
+                <tr>
+                  <td>Publicaciones orgánicas</td>
+                  <td>42 → 45</td>
+                  <td>Refuerzan confianza y retención del tráfico pagado.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="small muted mt-2">
+            Nota: estos datos corresponden al ciclo 7 Ene – 2 Feb 2026 (26 días de ejecución continua).
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
 
-    <footer>
-      <div>Data notes: Campaign and ad metrics from Meta exports for Jan 6 to Jan 31, 2026. Followers computed using Instagram profile snapshots from 54 to 413.</div>
-      <div class="small">You can host this as a single HTML file on GitHub Pages. No external libraries required.</div>
-    </footer>
+    <!-- BLOQUE CONCLUSIONES PARA EL CLIENTE -->
+    <div class="cardx mt-3">
+      <h2 class="h6 mb-2">Conclusiones para el cliente (versión ejecutiva)</h2>
+      <ul class="mb-2">
+        <li><strong>De 54 a 413 seguidores</strong> en 26 días: se pasa de cuenta “invisible” a comunidad con tracción real.</li>
+        <li><strong>Costo por seguidor de 0.36 €</strong>: permite proyectar escalado de seguidores con presupuestos moderados.</li>
+        <li><strong>43% de conversión de visita a seguidor</strong>: indica que biografía y contenido actúan como “imán” de confianza.</li>
+        <li><strong>Metodología ABO validada</strong>: tenemos un blueprint para incrementar presupuesto sin romper el costo por resultado.</li>
+        <li><strong>Perfil listo para siguiente fase</strong>: con la prueba social actual, se pueden activar campañas de webinar / lower funnel con mejores tasas de conversión.</li>
+      </ul>
+      <div class="small muted">
+        Próximo paso recomendado: replicar la estructura actual con mayor presupuesto y test A/B de creatividades orientadas ya a conversión (registro a webinar, lead magnets, etc.).
+      </div>
+    </div>
+
   </div>
+</div>
+
+<script>
+  // Datos base (resumen que compartiste)
+  const data = {
+    followersStart: 54,
+    followersEnd: 413,
+    newFollowers: 359,
+    growthPct: 664.81,
+    impressions: 18369,
+    reach: 10965,
+    profileVisits: 835,
+    spend: 130.34,
+    cpv: 0.156,
+    cpf: 0.363,
+    profileToFollowConv: 0.43
+  };
+
+  // Funnel: impresiones → reach → visitas → seguidores
+  const funnelCtx = document.getElementById('funnel');
+  new Chart(funnelCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Impresiones','Alcance','Visitas a perfil','Nuevos seguidores'],
+      datasets: [{
+        label: 'Volumen',
+        data: [
+          data.impressions,
+          data.reach,
+          data.profileVisits,
+          data.newFollowers
+        ],
+        backgroundColor: ['#8b5cf6','#1d4ed8','#0ea5e9','#22c55e'],
+        borderRadius: 8
+      }]
+    },
+    options: {
+      plugins: { legend: { display:false }},
+      scales: {
+        y: { beginAtZero:true, ticks:{ precision:0 } }
+      }
+    }
+  });
+
+  // Costos: CPV vs CPF vs coste medio por 1.000 impresiones (aprox)
+  const cpmApprox = (data.spend / data.impressions) * 1000;
+  const costsCtx = document.getElementById('costs');
+  new Chart(costsCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['CPV (€/visita perfil)','CPF (€/seguidor)','CPM aprox (€/1.000 imp.)'],
+      datasets: [{
+        data: [data.cpv, data.cpf, cpmApprox],
+        backgroundColor: ['#0ea5e9','#22c55e','#f97316'],
+        borderColor: '#ffffff',
+        borderWidth: 3
+      }]
+    },
+    options: {
+      plugins: {
+        legend:{ position:'bottom' },
+        tooltip: {
+          callbacks: {
+            label: ctx => `${ctx.label}: ${ctx.parsed.toFixed(3)} €`
+          }
+        }
+      }
+    }
+  });
+
+  // Growth: inicio vs final
+  const growthCtx = document.getElementById('growth');
+  new Chart(growthCtx, {
+    type: 'line',
+    data: {
+      labels: ['Inicio campaña','Fin campaña'],
+      datasets: [{
+        label: 'Seguidores',
+        data: [data.followersStart, data.followersEnd],
+        borderColor: '#1d4ed8',
+        backgroundColor: 'rgba(37,99,235,0.18)',
+        fill:true,
+        tension:0.35,
+        pointRadius:5,
+        pointBackgroundColor:'#1d4ed8'
+      }]
+    },
+    options: {
+      plugins:{ legend:{ display:false } },
+      scales: {
+        y: { beginAtZero:false, suggestedMin:0 }
+      }
+    }
+  });
+</script>
 </body>
 </html>
